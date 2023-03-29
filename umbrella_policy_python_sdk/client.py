@@ -44,7 +44,7 @@ class Client:
         self.token = oauth.fetch_token(token_url=self.token_url, auth=auth)
         return self.token
 
-    def get_all(self, endpoint: str, params: Dict | None = None) -> List[Dict]:
+    def get_all(self, endpoint: str, params: Dict = None) -> List[Dict]:
         """Sends multiple GET requests to the specified API endpoint to
         retrieve all results.
 
@@ -78,7 +78,7 @@ class Client:
 
         return all_results
 
-    def get(self, endpoint: str, params: Dict | None = None) -> Dict:
+    def get(self, endpoint: str, params: Dict = None) -> Dict:
         """Sends a GET request to the specified API endpoint.
 
         :param endpoint: The endpoint to call.
@@ -90,8 +90,8 @@ class Client:
     def create(
         self,
         endpoint: str,
-        payload: Dict | List,
-        params: Dict | None = None,
+        payload: Dict,
+        params: Dict = None,
     ) -> Dict:
         """Sends a POST request to the specified API endpoint.
 
@@ -102,7 +102,7 @@ class Client:
         """
         return self.manual("POST", endpoint, params=params, payload=payload)
 
-    def update(self, endpoint: str, payload: Dict, params: Dict | None = None) -> Dict:
+    def update(self, endpoint: str, payload: Dict, params: Dict = None) -> Dict:
         """Sends a PATCH request to the specified API endpoint.
 
         :param endpoint: The endpoint to call.
@@ -115,8 +115,8 @@ class Client:
     def delete(
         self,
         endpoint: str,
-        params: Dict | None = None,
-        payload: Dict | List | None = None,
+        params: Dict = None,
+        payload: Dict = None,
     ) -> Dict:
         """Sends a DELETE request to the specified API endpoint.
 
@@ -130,8 +130,8 @@ class Client:
         self,
         method: str,
         endpoint: str,
-        params: Dict | None = None,
-        payload: Dict | List | None = None,
+        params: Dict = None,
+        payload: Dict = None,
     ) -> Dict:
         """Sends a manual request to the specified API endpoint.
 
