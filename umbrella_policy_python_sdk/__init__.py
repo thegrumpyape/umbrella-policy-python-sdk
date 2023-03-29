@@ -19,12 +19,12 @@ class Umbrella:
 
     **Methods:**
 
-    - `destination_lists(params: dict = None) -> List[Dict]`: Retrieves a list of destination lists from the Umbrella API.
-    - `create_destination_list(name: str, access: str, is_global: bool = False, params: dict = None) -> Dict`: Creates a new destination list on the Umbrella API.
+    - `destination_lists(params: Dict = None) -> List[Dict]`: Retrieves a list of destination lists from the Umbrella API.
+    - `create_destination_list(name: str, access: str, is_global: bool = False, params: Dict = None) -> Dict`: Creates a new destination list on the Umbrella API.
     - `update_destination_list(destination_list_id: int, name: str) -> Dict`: Updates an existing destination list on the Umbrella API.
-    - `delete_destination_list(destination_list_id: int) -> str`: Deletes a destination list from the Umbrella API.
-    - `destination_list(destination_list_id: int, params: dict = None) -> Dict`: Retrieves a single destination list from the Umbrella API.
-    - `destinations(destination_list_id: int, params: dict = None) -> List[Dict]`: Retrieves a list of destinations for a destination list from the Umbrella API.
+    - `delete_destination_list(destination_list_id: int) -> Dict`: Deletes a destination list from the Umbrella API.
+    - `destination_list(destination_list_id: int, params: Dict = None) -> Dict`: Retrieves a single destination list from the Umbrella API.
+    - `destinations(destination_list_id: int, params: Dict = None) -> List[Dict]`: Retrieves a list of destinations for a destination list from the Umbrella API.
     - `add_destinations(destination_list_id: int, destinations: List[str]) -> Dict`: Adds a list of destinations to a destination list on the Umbrella API.
     - `delete_destinations(destination_list_id: int, destination_ids: List[str]) -> Dict`: Removes a list of destinations from a destination list on the Umbrella API.
     """  # noqa
@@ -42,11 +42,11 @@ class Umbrella:
         """  # noqa
         self.client = Client(self.BASE_URL, self.TOKEN_URL, client_id, client_secret)
 
-    def destination_lists(self, params: dict = None):
+    def destination_lists(self, params: Dict = None) -> List[Dict]:
         """Retrieves a list of destination lists from the Umbrella API.
 
         :param params: Additional parameters to include in the request to the Umbrella API. Defaults to None.
-        :type params: dict, optional
+        :type params: Dict, optional
 
         :returns: A list of destination lists from the Umbrella API.
         :rtype: List[Dict]
@@ -59,8 +59,8 @@ class Umbrella:
         name: str,
         access: str,
         is_global: bool = False,
-        params: dict = None,
-    ):
+        params: Dict = None,
+    ) -> Dict:
         """Creates a new destination list on the Umbrella API.
 
         :param name: The name of the new destination list.
@@ -70,16 +70,16 @@ class Umbrella:
         :param is_global: Whether the new destination list is global. Defaults to False.
         :type is_global: bool, optional
         :param params: Additional parameters to include in the request to the Umbrella API. Defaults to None.
-        :type params: dict, optional
+        :type params: Dict, optional
 
         :returns: The response from the Umbrella API for creating a new destination list.
-        :rtype: dict
+        :rtype: Dict
         """  # noqa
         payload = {"name": name, "isGlobal": is_global, "access": access}
         result = self.client.create("/destinationlists", payload=payload, params=params)
         return result
 
-    def update_destination_list(self, destination_list_id: int, name: str):
+    def update_destination_list(self, destination_list_id: int, name: str) -> Dict:
         """Updates an existing destination list on the Umbrella API.
 
         :param destination_list_id: The ID of the destination list to update.
@@ -88,7 +88,7 @@ class Umbrella:
         :type name: str
 
         :returns: The updated destination list from the Umbrella API.
-        :rtype: dict
+        :rtype: Dict
         """  # noqa
         payload = {"name": name}
         result = self.client.update(
@@ -96,51 +96,53 @@ class Umbrella:
         )
         return result["data"]
 
-    def delete_destination_list(self, destination_list_id: int):
+    def delete_destination_list(self, destination_list_id: int) -> Dict:
         """Deletes a destination list from the Umbrella API.
 
         :param destination_list_id: The ID of the destination list to delete.
         :type destination_list_id: int
 
         :returns: The status message from the Umbrella API for deleting a destination list.
-        :rtype: str
+        :rtype: Dict
         """  # noqa
         result = self.client.delete(f"/destinationlists/{destination_list_id}")
         return result["status"]
 
-    def destination_list(self, destination_list_id: int, params: dict = None):
+    def destination_list(self, destination_list_id: int, params: Dict = None) -> Dict:
         """Retrieves a single destination list from the Umbrella API.
 
         :param destination_list_id: The ID of the destination list to retrieve.
         :type destination_list_id: int
         :param params: Additional parameters to include in the request to the Umbrella API.
-        :type params: dict
+        :type params: Dict
 
         :returns: The destination list from the Umbrella API.
-        :rtype: dict
+        :rtype: Dict
         """  # noqa
         result = self.client.get(
             f"/destinationlists/{destination_list_id}", params=params
         )
         return result["data"]
 
-    def destinations(self, destination_list_id: int, params: dict = None):
+    def destinations(self, destination_list_id: int, params: Dict = None) -> List[Dict]:
         """Retrieves a list of destinations for a destination list from the Umbrella API.
 
         :param destination_list_id: The ID of the destination list to retrieve destinations for.
         :type destination_list_id: int
         :param params: Additional parameters to include in the request to the Umbrella API.
-        :type params: dict
+        :type params: Dict
 
         :returns: A list of destinations for the specified destination list from the Umbrella API.
-        :rtype: list[dict]
+        :rtype: List[Dict]
         """  # noqa
         result = self._get_all(
             f"/destinationlists/{destination_list_id}/destinations", params=params
         )
         return result
 
-    def add_destinations(self, destination_list_id: int, destinations: List[str]):
+    def add_destinations(
+        self, destination_list_id: int, destinations: List[str]
+    ) -> Dict:
         """Adds a list of destinations to a destination list on the Umbrella
         API.
 
@@ -162,16 +164,18 @@ class Umbrella:
             )
         return result["data"] if result is not None else None
 
-    def delete_destinations(self, destination_list_id: int, destination_ids: List[str]):
+    def delete_destinations(
+        self, destination_list_id: int, destination_ids: List[str]
+    ) -> Dict:
         """Removes a list of destinations from a destination list on the Umbrella API.
 
         :param destination_list_id: The ID of the destination list to remove destinations from.
         :type destination_list_id: int
         :param destination_ids: A list of destination IDs to remove from the destination list.
-        :type destination_ids: list[str]
+        :type destination_ids: List[str]
 
         :returns: The response from the Umbrella API for removing destinations from a destination list.
-        :rtype: dict
+        :rtype: Dict
         """  # noqa
         batches = self._make_batches(destination_ids, 100)
         result = None
@@ -182,16 +186,16 @@ class Umbrella:
             )
         return result["data"] if result is not None else None
 
-    def _get_all(self, endpoint: str, params: dict = None):
+    def _get_all(self, endpoint: str, params: Dict = None) -> List[Dict]:
         """Retrieves all results from a paginated endpoint on the Umbrella API.
 
         :param endpoint: The endpoint to retrieve results from.
         :type endpoint: str
         :param params: Additional parameters to include in the request to the Umbrella API.
-        :type params: dict
+        :type params: Dict
 
         :returns: A list of all results from the paginated endpoint.
-        :rtype: list[dict]
+        :rtype: List[Dict]
         """  # noqa
         all_results = []
         page = 1
@@ -223,12 +227,12 @@ class Umbrella:
         """Splits a list of entries into batches of a specified size.
 
         :param entries: The list of entries to split into batches.
-        :type entries: list
+        :type entries: List
         :param size: The size of each batch.
         :type size: int
 
         :returns: A list of batches, with each batch containing `size` entries or fewer.
-        :rtype: list[list]
+        :rtype: List[List]
 
         """  # noqa
-        return [entries[i: i + size] for i in range(0, len(entries), size)]
+        return [entries[i : i + size] for i in range(0, len(entries), size)]
